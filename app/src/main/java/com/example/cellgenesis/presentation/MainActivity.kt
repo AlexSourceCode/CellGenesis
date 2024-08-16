@@ -50,10 +50,10 @@ class MainActivity : AppCompatActivity(), CellView {
         }
     }
 
-    override fun showCells(cells: List<Cell>, event: Event) {
+    override fun showCells(cells: List<Cell>, event: Event) { // нарушение паттерна mvp
         val newList = adapter.currentList.toMutableList()
         newList.add(cells.last())
-        adapter.submitList(newList){  // нарушение паттерна mvp
+        adapter.submitList(newList){  
             if (event is Event.CreateLife){
                 showLife()
             } else if (event is Event.DestroyLife){
