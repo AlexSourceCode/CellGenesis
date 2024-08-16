@@ -70,10 +70,9 @@ class MainActivity : AppCompatActivity(), CellView {
 
     override fun destroyLife() {
         val position = adapter.currentList.lastIndexOf(Event.CreateLife)
-        if (position == -1){
-            return
+        if (position != -1) {
+            adapter.removeItem(position)
         }
-        adapter.removeItem(position)
     }
 
 
