@@ -23,7 +23,7 @@ class CellPresenter(
             }
             .subscribe { (cells, event) ->
                 if (event is Event.CreateLife) {
-                    view.showCells(cells, event) // change approach
+                    view.showCells(cells, event)
                 }
                 else if (event is Event.DestroyLife){
                     view.showCells(cells, event)
