@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CellGenesis</string>
+    <string name="Header">Клеточное наполнение</string>
+    <string name="Alive">Живая</string>
+    <string name="ActionAlive">и шевелится!</string>
+    <string name="Create">СОТВОРИТЬ</string>
+    <string name="Dead">Мертвая</string>
+    <string name="ActionDead">или прикидывается</string>
+    <string name="Life">Жизнь</string>
+    <string name="ActionLife">Ку-ку!</string>
+</resources>
