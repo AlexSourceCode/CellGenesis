@@ -61,9 +61,6 @@ class CellAdapter : ListAdapter<Any, RecyclerView.ViewHolder>(CellDiffCallback) 
 
 
     fun removeItem(position: Int) {
-        if (position == -1) {
-            return
-        }
         val currentList = currentList.toMutableList()
         currentList.removeAt(position)
         submitList(currentList)
