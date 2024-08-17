@@ -1,6 +1,5 @@
 package com.example.cellgenesis.data.repository
 
-import android.util.Log
 import com.example.cellgenesis.domain.model.Cell
 import com.example.cellgenesis.domain.model.Event
 import com.example.cellgenesis.domain.repository.CellRepository
@@ -15,7 +14,7 @@ class CellRepositoryImpl : CellRepository {
 
 
     override fun addCell(): Observable<List<Cell>> {
-        val newCell = if (Random.nextInt(0,2) == 0) Cell.Dead() else Cell.Alive()
+        val newCell = if (Random.nextInt(0, 2) == 0) Cell.Dead() else Cell.Alive()
         cells.add(newCell)
         cellsSubject.onNext(cells)
         return cellsSubject
@@ -34,10 +33,8 @@ class CellRepositoryImpl : CellRepository {
             if ((event == (Event.CreateLife)) || (event == (Event.DestroyLife))) {
                 processedCells.clear()
             }
-
             return Observable.just(event)
         }
         return Observable.just(Event.Inactive)
-
     }
 }

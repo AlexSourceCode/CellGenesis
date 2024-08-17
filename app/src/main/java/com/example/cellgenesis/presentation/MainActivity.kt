@@ -1,7 +1,6 @@
 package com.example.cellgenesis.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,14 +32,11 @@ class MainActivity : AppCompatActivity(), CellView {
         presenter = CellPresenter(this, addCellUseCase, checkLifeStatusUseCase)
         setupRecyclerView()
         setupListener()
-
     }
 
     private fun setupRecyclerView() {
         binding.rcGenesis.adapter = adapter
         binding.rcGenesis.layoutManager = LinearLayoutManager(this)
-
-
     }
 
     private fun setupListener() {
@@ -50,18 +46,15 @@ class MainActivity : AppCompatActivity(), CellView {
         }
     }
 
-    override fun showCells(cells: List<Cell>, event: Event) {
+    override fun showCells(
+        cell: Cell,
+        onComplete: () -> Unit
+    ) {
         val newList = adapter.currentList.toMutableList()
-        newList.add(cells.last())
-        adapter.submitList(newList){  // нарушение паттерна mvp
-            if (event is Event.CreateLife){
-                showLife()
-            } else if (event is Event.DestroyLife){
-                destroyLife()
-            }
-            binding.rcGenesis.scrollToPosition(newList.size - 1)
+        newList.add(cell)
+        adapter.submitList(newList) {
+            onComplete()
         }
-
     }
 
     override fun showLife() {
@@ -70,11 +63,19 @@ class MainActivity : AppCompatActivity(), CellView {
 
     override fun destroyLife() {
         val position = adapter.currentList.lastIndexOf(Event.CreateLife)
-        if (position == -1){
-            return
+        if (position != -1) {
+            adapter.removeItem(position)
         }
-        adapter.removeItem(position)
     }
 
-
+    override fun scrollListToEnd() {
+        val observer = object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                super.onItemRangeInserted(positionStart, itemCount)
+                binding.rcGenesis.scrollToPosition(adapter.currentList.size - 1)
+                adapter.unregisterAdapterDataObserver(this)
+            }
+        }
+        adapter.registerAdapterDataObserver(observer)
+    }
 }

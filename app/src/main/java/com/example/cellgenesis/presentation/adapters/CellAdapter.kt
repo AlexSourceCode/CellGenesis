@@ -1,22 +1,14 @@
 package com.example.cellgenesis.presentation.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cellgenesis.R
 import com.example.cellgenesis.databinding.ItemAliveBinding
 import com.example.cellgenesis.databinding.ItemDeadBinding
 import com.example.cellgenesis.databinding.ItemLifeBinding
 import com.example.cellgenesis.domain.model.Cell
 import com.example.cellgenesis.domain.model.Event
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlin.concurrent.thread
 
 
 class CellAdapter : ListAdapter<Any, RecyclerView.ViewHolder>(CellDiffCallback) {
@@ -55,13 +47,11 @@ class CellAdapter : ListAdapter<Any, RecyclerView.ViewHolder>(CellDiffCallback) 
                     ItemLifeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 LifeViewHolder(binding)
             }
-
             else -> throw IllegalArgumentException("Unknown view type")
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-
         when (holder) {
             is AliveViewHolder -> holder.bind(getItem(position) as Cell.Alive)
             is DeadViewHolder -> holder.bind(getItem(position) as Cell.Dead)
@@ -69,8 +59,9 @@ class CellAdapter : ListAdapter<Any, RecyclerView.ViewHolder>(CellDiffCallback) 
         }
     }
 
+
     fun removeItem(position: Int) {
-        if (position == -1){
+        if (position == -1) {
             return
         }
         val currentList = currentList.toMutableList()
@@ -78,11 +69,10 @@ class CellAdapter : ListAdapter<Any, RecyclerView.ViewHolder>(CellDiffCallback) 
         submitList(currentList)
     }
 
-   fun addLife() {
-        Log.d("ListCells", "Adapter ${currentList.toString()}")
+    fun addLife() {
         val currentList = currentList.toMutableList()
         currentList.add(Event.CreateLife)
-       submitList(currentList)
-
+        submitList(currentList) {
+        }
     }
 }

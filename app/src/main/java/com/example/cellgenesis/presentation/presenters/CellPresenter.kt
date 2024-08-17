@@ -1,6 +1,5 @@
 package com.example.cellgenesis.presentation.presenters
 
-import android.util.Log
 import com.example.cellgenesis.domain.model.Event
 import com.example.cellgenesis.domain.usecase.AddCellUseCase
 import com.example.cellgenesis.domain.usecase.CheckLifeStatusUseCase
@@ -15,20 +14,23 @@ class CellPresenter(
     private val disposables = CompositeDisposable()
 
 
-    fun onAddCellButton(){
+    fun onAddCellButton() {
         val disposable = addCellUseCase()
             .flatMap { cells ->
                 checkLifeStatusUseCase(cells)
                     .map { event -> Pair(cells, event) }
             }
             .subscribe { (cells, event) ->
-                if (event is Event.CreateLife) {
-                    view.showCells(cells, event) // change approach
-                }
-                else if (event is Event.DestroyLife){
-                    view.showCells(cells, event)
-                } else{
-                    view.showCells(cells, event)
+                view.scrollListToEnd()
+                view.showCells(cells.last()) {
+                    when (event) {
+                        is Event.CreateLife -> {
+                            view.showLife()
+                        }
+                        is Event.DestroyLife -> view.destroyLife()
+                        else -> Unit
+                    }
+                    view.scrollListToEnd()
                 }
             }
         disposables.add(disposable)

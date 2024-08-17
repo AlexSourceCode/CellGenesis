@@ -1,6 +1,5 @@
 package com.example.cellgenesis.presentation.adapters
 
-import android.annotation.SuppressLint
 import androidx.recyclerview.widget.DiffUtil
 import com.example.cellgenesis.domain.model.Cell
 import com.example.cellgenesis.domain.model.Event

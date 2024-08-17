@@ -7,5 +7,5 @@ import io.reactivex.Observable
 interface CellRepository {
 
     fun addCell(): Observable<List<Cell>>
-    fun checkLifeStatus(cells:List<Cell>): Observable<Event>
+    fun checkLifeStatus(cells: List<Cell>): Observable<Event>
 }
